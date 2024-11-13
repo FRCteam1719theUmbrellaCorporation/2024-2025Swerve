@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import swervelib.parser.SwerveParser;
 import swervelib.SwerveDrive;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -23,6 +24,8 @@ public class SwerveSubsystem extends SubsystemBase{
     public SwerveSubsystem(File directory) {
 
         double maximumSpeed = Units.feetToMeters(4.5);
+        SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+
         try {
             this.swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed);
         } catch (Exception e) {
@@ -33,18 +36,18 @@ public class SwerveSubsystem extends SubsystemBase{
         
     }
     
-    public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier headingX,
-                              DoubleSupplier headingY)
+    public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier headingX, DoubleSupplier headingY)
   {
     return run(() -> {
       double xInput = Math.pow(translationX.getAsDouble(), 3); // Smooth controll out
       double yInput = Math.pow(translationY.getAsDouble(), 3); // Smooth controll out
       // Make the robot move
-      swerveDrive.driveFieldOriented(swerveDrive.swerveController.getTargetSpeeds(xInput, yInput,
-                                                                      headingX.getAsDouble(),
-                                                                      headingY.getAsDouble(),
-                                                                      swerveDrive.getYaw().getRadians(),
-                                                                      swerveDrive.getMaximumVelocity()));
+      driveFieldOriented(swerveDrive.swerveController.getTargetSpeeds(xInput, yInput,
+        headingX.getAsDouble(),
+        headingY.getAsDouble(),
+        swerveDrive.getYaw().getRadians(),
+        swerveDrive.getMaximumVelocity())
+        );
     });
   }
 
@@ -61,11 +64,22 @@ public class SwerveSubsystem extends SubsystemBase{
    public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX) {
     return run(() -> {
       // Make the robot move
-      swerveDrive.drive(new Translation2d(translationX.getAsDouble() * swerveDrive.getMaximumVelocity(),
-                                          translationY.getAsDouble() * swerveDrive.getMaximumVelocity()),
-                        angularRotationX.getAsDouble() * swerveDrive.getMaximumAngularVelocity(),
-                        true,
-                        false);
+      swerveDrive.drive(new Translation2d(
+        translationX.getAsDouble() * swerveDrive.getMaximumVelocity(),
+        translationY.getAsDouble() * swerveDrive.getMaximumVelocity()),
+        angularRotationX.getAsDouble() * swerveDrive.getMaximumAngularVelocity(),true,false);
         });
     }
+
+    /**
+     * Zeros gyro when called
+     */
+    public void zeroGyro() {
+        swerveDrive.zeroGyro();
+    }
+
+    public void driveFieldOriented(ChassisSpeeds vel) {
+        swerveDrive.driveFieldOriented(vel);
+    }
+    
 }
