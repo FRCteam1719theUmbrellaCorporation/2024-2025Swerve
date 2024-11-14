@@ -10,12 +10,12 @@
     "canbus": null
   },
   "angle": {
-    "type": "sparkflex",
+    "type": "sparkmax",
     "id": 8,
     "canbus": null
   },
   "encoder": {
-    "type": "none",
+    "type": "cancoder",
     "id": 9,
     "canbus": null
   },
