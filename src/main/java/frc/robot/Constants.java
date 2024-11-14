@@ -20,8 +20,8 @@ public final class Constants {
   public static final int SolenoidPin = 10;
   public static final int JoystickPort = 0;
 
-  public static final double Y_DEADBAND = 0.1;
-  public static final double X_DEADBAND = 0.1;
+  public static final double Y_DEADBAND = 0.4;
+  public static final double X_DEADBAND = 0.4;
 
   
 

@@ -32,6 +32,7 @@ public class SwerveSubsystem extends SubsystemBase{
             throw new RuntimeException(e);
         }
 
+        zeroGyro();
 
         
     }
