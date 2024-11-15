@@ -22,6 +22,7 @@ public final class Constants {
 
   public static final double Y_DEADBAND = 0.4;
   public static final double X_DEADBAND = 0.4;
+  public static final double TWIST_DEADBAND = 0.4;
 
   
 

@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -40,7 +41,8 @@ public class RobotContainer {
 
   private final Joystick m_driveController = new Joystick(Constants.JoystickPort);
 
-  Command driveFieldOriented = swerveBase.driveCommand(()-> MathUtil.applyDeadband(m_driveController.getY(), Constants.Y_DEADBAND), ()-> MathUtil.applyDeadband(m_driveController.getX(), Constants.X_DEADBAND), ()-> m_driveController.getTwist());
+  Command driveFieldOriented = swerveBase.drivetestCommand(()-> MathUtil.applyDeadband(m_driveController.getX(), Constants.Y_DEADBAND), ()-> MathUtil.applyDeadband(m_driveController.getY(), Constants.X_DEADBAND), ()-> MathUtil.applyDeadband(m_driveController.getTwist(), Constants.TWIST_DEADBAND));
+  
   
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -63,6 +65,7 @@ public class RobotContainer {
   private void configureBindings() {
     // Swerve Command
     this.swerveBase.setDefaultCommand(driveFieldOriented);
+    
   }
 
   

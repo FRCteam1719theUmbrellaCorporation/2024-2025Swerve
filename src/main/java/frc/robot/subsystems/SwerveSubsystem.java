@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class SwerveSubsystem extends SubsystemBase{
@@ -70,7 +71,23 @@ public class SwerveSubsystem extends SubsystemBase{
         translationY.getAsDouble() * swerveDrive.getMaximumVelocity()),
         angularRotationX.getAsDouble() * swerveDrive.getMaximumAngularVelocity(),true,false);
         });
-    }
+    } //Not used
+
+    
+    public Command drivetestCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX) {
+      
+      return run(() -> {
+        System.out.println("Angular"+angularRotationX.getAsDouble());
+        System.out.println("Xr"+translationX.getAsDouble());
+        System.out.println("Yr"+translationY.getAsDouble());
+        System.out.println("Vel"+swerveDrive.getMaximumAngularVelocity());
+        // Make the robot move
+        swerveDrive.drive(new Translation2d(
+          translationX.getAsDouble() * swerveDrive.getMaximumVelocity(),
+          translationY.getAsDouble() * swerveDrive.getMaximumVelocity()),
+          angularRotationX.getAsDouble() * swerveDrive.getMaximumAngularVelocity(),true,true);
+          });
+      }
 
     /**
      * Zeros gyro when called
@@ -84,3 +101,4 @@ public class SwerveSubsystem extends SubsystemBase{
     }
     
 }
+
